@@ -1,6 +1,9 @@
 from pathlib import Path
 import shutil
 from .config import FILE_CATEGORIES
+import logging
+
+logger = logging.getLogger(__name__)
 
 def get_category(file_path: Path) -> str:
     extension = file_path.suffix.lower()
@@ -28,9 +31,28 @@ def organize_folder(folder_path: Path, dry_run: bool = False) -> dict[str, int]:
         destination_folder = folder_path / category
         destination_path = destination_folder / item.name
 
+        
+
         if not dry_run:
+            logger.info(
+            "Preparing move: %s -> %s",
+            item.name,
+            destination_path,
+            )
+
             destination_folder.mkdir(exist_ok=True)
             shutil.move(str(item), str(destination_path))
+            logger.info(
+                "Moved file: %s -> %s",
+                item.name,
+                destination_folder,
+            )
+        else: 
+            logger.info(
+                "Dry run only: %s would move to %s",
+                item.name,
+                destination_path,
+            )
 
         moved_counts[category] = moved_counts.get(category, 0) + 1
 

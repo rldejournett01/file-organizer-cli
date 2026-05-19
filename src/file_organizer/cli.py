@@ -2,8 +2,11 @@ from pathlib import Path
 import argparse
 
 from file_organizer.organizer import organize_folder
+from file_organizer.logger import setup_logging
 
 def main():
+    print("\nFile Organizer started...")
+    setup_logging()
     #Reads the terminal input
     parser = argparse.ArgumentParser(description="Organize files into folders by file type.")
 
@@ -23,12 +26,29 @@ def main():
 
     folder_path = Path(args.folder)
 
+
     results = organize_folder(folder_path, dry_run=args.dry_run)
 
-    print("\nOrganization Complete\n")
+    if not results:
+        print("\nNothing to organize.\n")
+        return
 
-    for category, count in results.items():
-        print(f"{category}: {count} files moved")
+    if args.dry_run:
+        print("\nDry Run Complete! [No files were moved]\n")
+
+        print("\nSummary:")
+        for category, count in results.items():
+            print(f"{category}: {count} file(s) would be moved")
+
+    else:
+        print("\nOrganization Complete\n")
+        
+        print("\nSummary:")
+        for category, count in results.items():
+            print(f"{category}: {count} file(s) moved")
+
+        
+    
 
 if __name__ == "__main__":
     main()
