@@ -11,7 +11,7 @@ def get_category(file_path: Path) -> str:
         
     return "Other"
 
-def organize_folder(folder_path: Path) -> dict[str, int]:
+def organize_folder(folder_path: Path, dry_run: bool = False) -> dict[str, int]:
     if not folder_path.exists():
         raise FileNotFoundError(f"Folder '{folder_path}' does not exist.")
     
@@ -26,12 +26,12 @@ def organize_folder(folder_path: Path) -> dict[str, int]:
 
         category = get_category(item)
         destination_folder = folder_path / category
-        destination_folder.mkdir(exist_ok=True)
-
         destination_path = destination_folder / item.name
 
-        shutil.move(str(item), str(destination_path))
+        if not dry_run:
+            destination_folder.mkdir(exist_ok=True)
+            shutil.move(str(item), str(destination_path))
 
         moved_counts[category] = moved_counts.get(category, 0) + 1
-        
+
     return moved_counts 

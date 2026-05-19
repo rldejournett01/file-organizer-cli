@@ -27,3 +27,13 @@ def test_organize_folder_moves_files(tmp_path):
 
     assert (tmp_path / "Images" / "photo.jpg").exists()
     assert (tmp_path / "Text" / "notes.txt").exists()
+
+def test_dry_run_does_not_move_files(tmp_path):
+    image_file = tmp_path / "photo.png"
+    image_file.write_text("fake image")
+
+    result = organize_folder(tmp_path, dry_run=True)
+
+    assert result == {"Images": 1}
+    assert image_file.exists()
+    assert not (tmp_path / "Images" / "photo.png").exists()

@@ -13,11 +13,17 @@ def main():
         help="folder to organize"
     )
 
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Preview file moves without changing anything"
+    )
+
     args = parser.parse_args()
 
     folder_path = Path(args.folder)
 
-    results = organize_folder(folder_path)
+    results = organize_folder(folder_path, dry_run=args.dry_run)
 
     print("\nOrganization Complete\n")
 
