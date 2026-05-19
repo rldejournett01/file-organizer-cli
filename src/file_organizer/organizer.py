@@ -1,7 +1,8 @@
-from pathlib import Path
-import shutil
-from .config import FILE_CATEGORIES
 import logging
+import shutil
+from pathlib import Path
+
+from .config import FILE_CATEGORIES
 
 logger = logging.getLogger(__name__)
 

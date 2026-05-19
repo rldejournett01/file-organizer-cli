@@ -1,5 +1,7 @@
-import pytest
 from pathlib import Path
+
+import pytest
+
 from src.file_organizer.organizer import get_category, organize_folder
 
 
@@ -44,11 +46,13 @@ def test_dry_run_does_not_move_files(tmp_path):
     assert image_file.exists()
     assert not (tmp_path / "Images" / "photo.png").exists()
 
+
 def test_missing_folder_raises_error():
     missing_path = Path("does_not_exist_path")
 
     with pytest.raises(FileNotFoundError):
         organize_folder(missing_path)
+
 
 def test_file_path_raises_not_directory(tmp_path):
     fake_file = tmp_path / "notes.txt"
@@ -57,10 +61,12 @@ def test_file_path_raises_not_directory(tmp_path):
     with pytest.raises(NotADirectoryError):
         organize_folder(fake_file)
 
+
 def test_empty_folder_returns_empty_result(tmp_path):
     result = organize_folder(tmp_path)
 
     assert result == {}
+
 
 def test_existing_category_folders_are_ignored(tmp_path):
     images_folders = tmp_path / "Images"

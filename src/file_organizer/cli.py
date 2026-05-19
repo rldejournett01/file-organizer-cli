@@ -1,8 +1,8 @@
-from pathlib import Path
 import argparse
+from pathlib import Path
 
-from file_organizer.organizer import organize_folder
 from file_organizer.logger import setup_logging
+from file_organizer.organizer import organize_folder
 
 
 def main():
